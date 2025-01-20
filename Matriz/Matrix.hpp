@@ -13,7 +13,7 @@ public:
 
     //~SparseMatrix();
 
-    //void insert(int i, int j, double value);
+    void insert(int i, int j, double value);
 
     //double get(int i, int j);
 
