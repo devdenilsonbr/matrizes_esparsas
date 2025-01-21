@@ -39,27 +39,3 @@ SparseMatrix::SparseMatrix(int m, int n) {
 Node *SparseMatrix::getRoot() {
     return root;
 }
-
-void SparseMatrix::insert(int i, int j, double value) {
-    Node *sentRow = root;
-    
-    while (sentRow->row != i) {
-        sentRow = sentRow->down;
-    }
-
-    Node *sentColumn = root;
-
-    while (sentColumn->column != j) {
-        sentColumn = sentColumn->right;
-    }
-
-    Node *newNode = new Node;
-
-    while(sentRow->right != sentRow) {
-        sentRow = sentRow->right;
-    }
-
-
-
-}
-
