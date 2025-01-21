@@ -1,6 +1,9 @@
 #include <iostream>
 #include "Matrix.hpp"
 
+//Isso aqui foi pra testar se o construtor estava certo
+//tenho o debugador entao n é mais necessario
+
 SparseMatrix::SparseMatrix(int m, int n) {
     rows = m;
     colunms = n;

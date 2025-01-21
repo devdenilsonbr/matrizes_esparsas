@@ -1,5 +1,6 @@
 colocar um bebugador
 colocar uma descricao legal
 pesquisar pra ver se para inserir precisa viajar isso tudo
-
+criar um arquivo de input
+criar os teste como o é passado no moodle(com um texto onde é separado por comandos)
 
