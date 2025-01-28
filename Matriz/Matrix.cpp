@@ -36,3 +36,32 @@ SparseMatrix::SparseMatrix(int m, int n) {
     aux->right = root; // ...
 }
 
+void SparseMatrix::insert(int i, int j, double value) {
+    Node *auxRow = root->down; // crio um auxiliar para encontrar o node que vai apontar para o novo node
+
+    while(auxRow->row != i) { // busco a respectiva linha verificando se a linha atual eh a requerida
+        auxRow = auxRow->down; // percorro para a proxima
+    }
+    while(auxRow->right->column != 0 && auxRow->right->column <= j) {
+        auxRow = auxRow->right;
+    }
+    
+    Node *auxColumn = root;
+
+    while(auxColumn->column != j) {
+        auxColumn = auxColumn->right;
+    }
+    while(auxColumn->down->row != 0 && auxColumn->down->row <= i) {
+        auxColumn = auxColumn->down;
+    }
+
+    if (auxRow == auxColumn) {
+        auxRow->value = value;
+        return;
+    }
+
+    Node *newNode = new Node(auxRow->right, auxColumn->down, i, j, value);
+    auxRow->right = newNode;
+    auxColumn->down = newNode;
+}
+
