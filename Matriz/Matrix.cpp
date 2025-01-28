@@ -21,7 +21,6 @@ SparseMatrix::SparseMatrix(int m, int n) {
     }
 
     aux->down = root; // como eh ciclico, o ultimo node sentinela linha aponta para o root
-    aux->right = aux; // o sentinela linha aponta para ele mesmo
     aux = root;
 
     for (int i=1; i<=n; i++) { // iteror para criar todas as colunas
@@ -32,7 +31,6 @@ SparseMatrix::SparseMatrix(int m, int n) {
         newRoot->down = newRoot; // ...
         aux = newRoot; // ...
     }
-    aux->down = aux; // ...
     aux->right = root; // ...
 }
 
@@ -45,6 +43,11 @@ void SparseMatrix::insert(int i, int j, double value) {
     while(auxRow->right->column != 0 && auxRow->right->column <= j) {
         auxRow = auxRow->right;
     }
+
+    if (auxRow->column == j) {
+        auxRow->value = value;
+        return;
+    }
     
     Node *auxColumn = root;
 
@@ -55,13 +58,37 @@ void SparseMatrix::insert(int i, int j, double value) {
         auxColumn = auxColumn->down;
     }
 
-    if (auxRow == auxColumn) {
-        auxRow->value = value;
-        return;
-    }
-
     Node *newNode = new Node(auxRow->right, auxColumn->down, i, j, value);
     auxRow->right = newNode;
     auxColumn->down = newNode;
 }
 
+void SparseMatrix::print() {
+
+    Node *auxNode = root->down, *auxRow = root->down;
+
+    for (int i=0; i<rows; i++) {
+        auxNode = auxRow;
+
+        while (auxNode->right->column != 0) {
+            int zeros = (auxNode->right->column - auxNode->column) - 1;
+
+            for (int p = 0; p < zeros; p++) {
+                std::cout << " 0 ";
+            }
+
+            std::cout << " " << auxNode->right->value << " ";
+            auxNode = auxNode->right;
+        }
+
+        int zeros = colunms - auxNode->column;
+
+        for (int k = 0; k < zeros; k++) {
+            std::cout << " 0 ";
+        }
+
+        std::cout << "\n";
+
+        auxRow = auxRow->down;
+    }
+}
