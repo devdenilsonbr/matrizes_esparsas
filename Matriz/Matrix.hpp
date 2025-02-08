@@ -4,20 +4,25 @@
 
 class SparseMatrix{
 private:
-    int rows;
-    int colunms;
+    size_t rows;
+    size_t colunms;
     Node *root;
 public:
 
-    SparseMatrix(int m, int n);
+    SparseMatrix(size_t m, size_t n);
 
     //~SparseMatrix();
 
-    void insert(int i, int j, double value);
-
-    //double get(int i, int j);
+    void insert(unsigned i, unsigned j, double value);
 
     void print();
+
+    double get(unsigned i, unsigned j);
+
+    size_t sizeRow();
+    size_t sizeColunms();
+
+    double** toMatrix();
 
 };
 

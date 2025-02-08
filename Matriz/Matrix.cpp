@@ -1,7 +1,10 @@
 #include <iostream>
 #include "Matrix.hpp"
 
-SparseMatrix::SparseMatrix(int m, int n) {
+SparseMatrix::SparseMatrix(size_t m, size_t n) {
+    if (m > 300000 || n > 300000) {
+        throw std::out_of_range("Invalid size");
+    }
     rows = m; // a matriz recebe a quantidade de linha
     colunms = n; // a matriz recebe a quantidade de colunas
 
@@ -11,7 +14,7 @@ SparseMatrix::SparseMatrix(int m, int n) {
 
     Node *aux = root; // crio um auxiliar para criar os outros sentinelas
 
-    for (int i=1; i<=m; i++) { // itero para criar todos os sentinelas das linhas
+    for (size_t i=1; i<=m; i++) { // itero para criar todos os sentinelas das linhas
         Node *newRoot = new Node; // crio um novo node sentilena para a recpectiva linha
         newRoot->column = 0; // como estou criando os sentilenas das linhas, sua coluna é 0
         newRoot->row = i; // linha do respectivo sentinela
@@ -23,7 +26,7 @@ SparseMatrix::SparseMatrix(int m, int n) {
     aux->down = root; // como eh ciclico, o ultimo node sentinela linha aponta para o root
     aux = root;
 
-    for (int i=1; i<=n; i++) { // iteror para criar todas as colunas
+    for (size_t i=1; i<=n; i++) { // iteror para criar todas as colunas
         Node *newRoot = new Node; // repito o mesmo processo anterior para criar as colunas
         newRoot->column = i; // ...
         newRoot->row = 0; // ...
@@ -34,7 +37,13 @@ SparseMatrix::SparseMatrix(int m, int n) {
     aux->right = root; // ...
 }
 
-void SparseMatrix::insert(int i, int j, double value) {
+void SparseMatrix::insert(unsigned i, unsigned j, double value) {
+    if (i > rows || j > colunms) {
+        throw std::out_of_range("Invalid index");
+    }
+
+    if (value == 0) return;
+
     Node *auxRow = root->down; // crio um auxiliar para encontrar o node que vai apontar para o novo node
 
     while(auxRow->row != i) { // busco a respectiva linha verificando se a linha atual eh a requerida
@@ -67,7 +76,7 @@ void SparseMatrix::print() {
 
     Node *auxNode = root->down, *auxRow = root->down;
 
-    for (int i=0; i<rows; i++) {
+    for (size_t i=0; i<rows; i++) {
         auxNode = auxRow;
 
         while (auxNode->right->column != 0) {
@@ -91,4 +100,71 @@ void SparseMatrix::print() {
 
         auxRow = auxRow->down;
     }
+}
+
+double SparseMatrix::get(unsigned i, unsigned j) {
+    if (i > rows || j > colunms) {
+        throw std::out_of_range("Invalid index");
+    }
+
+    Node *aux = root;
+
+    //pegar a linha
+    while (aux->row != i) {
+        aux = aux->down;
+    }
+    while (aux->column != j) {
+        if (aux->right->column == 0) return 0;
+        aux = aux->right;
+    }
+
+    return aux->value;
+
+    
+}
+
+size_t SparseMatrix::sizeRow() {return rows;}
+
+size_t SparseMatrix::sizeColunms() {return colunms;}
+
+double** SparseMatrix::toMatrix() {
+
+    double** m = new double*[rows];
+
+    for (size_t i=0; i<rows; i++) {
+        m[i] = new double[colunms];
+    }
+
+    Node *auxNode = root->down, *auxRow = root->down;
+
+    for (size_t i=0; i<rows; i++) {
+        auxNode = auxRow;
+
+        size_t j = 0;
+
+        while (auxNode->right->column != 0) {
+            int zeros = (auxNode->right->column - auxNode->column) - 1;
+
+            for (int p = 0; p < zeros; p++) {
+                m[i][j] = 0; // numeros de zeros entre colunas
+                j++;
+            }
+
+            m[i][j] = auxNode->right->value;
+            j++;
+            auxNode = auxNode->right;
+        }
+
+        int zeros = colunms - auxNode->column;
+
+        for (int k = 0; k < zeros; k++) {
+            m[i][j] = 0;
+            j++;
+        }
+
+        auxRow = auxRow->down;
+    }
+
+    return m;
+
 }

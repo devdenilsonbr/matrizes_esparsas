@@ -4,8 +4,8 @@
 struct Node {
     Node *right;
     Node *down;
-    int row;
-    int column;
+    unsigned row;
+    unsigned column;
     double value;
 
     Node (Node *right = nullptr, Node *down = nullptr, int row = 0, int column = 0, double value = 0) {
@@ -15,6 +15,9 @@ struct Node {
         this->column = column;
         this->value = value;
     }
+
+    //~Node() {}
+
 };
 
 #endif
