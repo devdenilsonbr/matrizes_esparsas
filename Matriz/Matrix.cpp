@@ -3,9 +3,9 @@
 
 SparseMatrix::SparseMatrix(size_t m, size_t n)
 {
-    if (m > 300000 || n > 300000)
+    if (m > 30000 || n > 30000)
     {
-        throw std::out_of_range("Invalid size");
+        throw std::out_of_range("invalid size");
     }
     rows = m;    // a matriz recebe a quantidade de linha
     colunms = n; // a matriz recebe a quantidade de colunas
@@ -43,9 +43,9 @@ SparseMatrix::SparseMatrix(size_t m, size_t n)
 
 void SparseMatrix::insert(unsigned i, unsigned j, double value)
 {
-    if (i > rows || j > colunms)
+    if (i > rows || j > colunms || i == 0 || j == 0)
     {
-        throw std::out_of_range("Invalid index");
+        throw std::out_of_range("invalid index");
     }
 
     if (value == 0)
@@ -122,9 +122,9 @@ void SparseMatrix::print()
 double SparseMatrix::get(unsigned i, unsigned j)
 {
     // validar se a posição esta dentro da matriz
-    if (i > rows || j > colunms)
+    if (i > rows || j > colunms || i == 0 || j == 0)
     {
-        throw std::out_of_range("Invalid index");
+        throw std::out_of_range("invalid index");
     }
 
     // percorre a lista de linhas para encontrar a linha i
