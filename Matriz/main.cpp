@@ -212,7 +212,21 @@ int main()
 
                 cout << color::yellow << "$print: showing the matrix[" << s << "]\n";
 
-                std::string content = setMatrix[s]->print(true, true);
+                bool write = true;
+
+                if (setMatrix[s]->sizeRow() >= 5000 || setMatrix[s]->sizeColunms() >= 5000)
+                {
+                    cout << color::green << "the chosen matrix is too large, do you want to write/print to the console anyway? [s/n]: ";
+
+                    char ans;
+                    cin >> ans;
+
+                    ans = std::tolower(ans);
+
+                    write = ans == 's' ? true : false;
+                }
+
+                std::string content = setMatrix[s]->print(write, true);
 
                 cout << color::green << "Do you want to save the matrix content to file? [s/n]: ";
                 char ans;
@@ -227,7 +241,7 @@ int main()
                     cout << color::green << "Enter the filename to save the matrix content: ";
                     cin >> filename;
 
-                    std::string filePath = "data/print/" + filename + ".txt";
+                    std::string filePath = "data/print/" + filename + "-pt.txt";
 
                     std::ofstream outFile(filePath);
 
