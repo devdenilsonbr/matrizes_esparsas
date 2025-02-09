@@ -1,6 +1,6 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
-#include "Node.hpp"
+#include "node.hpp"
 
 class SparseMatrix
 {
@@ -24,9 +24,6 @@ public:
     size_t sizeColunms();
 
     double **toMatrix();
-
-    static SparseMatrix multiply(SparseMatrix &A, SparseMatrix &B);
-    static SparseMatrix sum(SparseMatrix &A, SparseMatrix &B);
 };
 
 #endif
