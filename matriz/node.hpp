@@ -18,7 +18,7 @@ struct Node
         this->value = value;
     }
 
-    //~Node() {}
+    ~Node() { }
 };
 
 #endif

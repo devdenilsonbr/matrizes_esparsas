@@ -5,9 +5,9 @@
 
 SparseMatrix::SparseMatrix(size_t m, size_t n)
 {
-    if (m > 30000 || n > 30000)
+    if (m <= 0 || n <= 0 || m > 30000 || n > 30000)
     {
-        throw std::out_of_range("invalid size");
+        throw std::out_of_range("invalid matrix size");
     }
     rows = m;    // a matriz recebe a quantidade de linha
     colunms = n; // a matriz recebe a quantidade de colunas
@@ -45,20 +45,19 @@ SparseMatrix::SparseMatrix(size_t m, size_t n)
 
 void SparseMatrix::insert(unsigned i, unsigned j, double value)
 {
+    
     if (i > rows || j > colunms || i == 0 || j == 0)
     {
         throw std::out_of_range("invalid index");
     }
 
-    if (value == 0)
-        return;
-
     Node *auxRow = root->down; // crio um auxiliar para encontrar o node que vai apontar para o novo node
 
     while (auxRow->row != i)
-    {                          // busco a respectiva linha verificando se a linha atual eh a requerida
+    {                          // busco a respectiva linha verificando se a linha atual é a requerida
         auxRow = auxRow->down; // percorro para a proxima
     }
+
     while (auxRow->right->column != 0 && auxRow->right->column <= j)
     {
         auxRow = auxRow->right;
@@ -66,22 +65,52 @@ void SparseMatrix::insert(unsigned i, unsigned j, double value)
 
     if (auxRow->column == j)
     {
-        auxRow->value = value;
+        if (value == 0) { // se o novo valor for 0, removemos o nó antigo
+            Node *toDelete = auxRow->right;
+            auxRow->right = toDelete->right;
+
+            // encontrar o nó anterior na coluna para remover corretamente
+            Node *auxColumn = root;
+
+            while (auxColumn->column != j)
+            {
+                auxColumn = auxColumn->right;
+            }
+
+            while (auxColumn->down != toDelete)
+            {
+                auxColumn = auxColumn->down;
+            }
+            auxColumn->down = toDelete->down;
+
+            delete toDelete;
+        } else
+        {
+            auxRow->right->value = value;
+        }
         return;
     }
 
-    Node *auxColumn = root;
+    if (value == 0) // se o valor for 0 e nó não existe, não precisa fazer mais nada
+    {
+        return;
+    }
+
+    Node *auxColumn = root; // pegar a coluna inicial
 
     while (auxColumn->column != j)
-    {
+    { // percorre as colunas ate encontrar a coluna j
         auxColumn = auxColumn->right;
     }
+
     while (auxColumn->down->row != 0 && auxColumn->down->row <= i)
-    {
+    { // percorre as colunas ate encontrar a posição correta
         auxColumn = auxColumn->down;
     }
 
-    Node *newNode = new Node(auxRow->right, auxColumn->down, i, j, value);
+    // cria um novo nó adiciona nos elementos vizinhos
+    Node *newNode = new Node(auxRow->right, auxColumn->down, i, j, value); 
+
     auxRow->right = newNode;
     auxColumn->down = newNode;
 }
@@ -90,32 +119,37 @@ std::string SparseMatrix::print(bool write = 1, bool outline = 0, int spaces = 8
 {
     std::ostringstream oss, result;
 
-    size_t maxWidth = 0;
-    std::string rowStr;
+    size_t maxWidth = 0; // essa largura sera utilizada para gerar as borda da matriz
+    std::string rowStr; // armazena a linha atual da matriz
 
     result << "matrix dimension: " << rows << "x" << colunms << "\n";
 
-    Node *auxNode = root->down, *auxRow = root->down;
+    Node *auxNode = root->down, *auxRow = root->down; // ponteiros auxiliares para os sentinelas
 
     for (size_t i = 0; i < rows; i++)
-    {
-        auxNode = auxRow;
+    { // percorre cada linha da matriz
+        auxNode = auxRow; // utilizando o primeiro sentinela 
         std::ostringstream rowStream;
 
         while (auxNode->right->column != 0)
-        {
-            int zeros = (auxNode->right->column - auxNode->column) - 1;
+        { // percorre todos os elementos não nula da linha atual
+            // calcular a quantidade de zeros para preencher espaços nulos na esquerda
+            int zeros = (auxNode->right->column - auxNode->column) - 1; 
 
             for (int p = 0; p < zeros; p++)
             {
-                rowStream << std::setw(spaces) << "0.0";
+                // formata os espaçamento da esquerda e direita de acordo com o spaces
+                // em seguida adiciona o elemento na linha
+                rowStream << std::setw(spaces) << "0.0"; 
             }
 
+            // formata o valor do nó com ate 1 casa decimal 
             rowStream << std::setw(spaces) << std::fixed << std::setprecision(1) << auxNode->right->value;
 
-            auxNode = auxNode->right;
+            auxNode = auxNode->right; // próximo elemento da linha
         }
 
+        // faz a mesma coisa do outro for, esse é ao lado direito da linha
         int zeros = colunms - auxNode->column;
 
         for (int k = 0; k < zeros; k++)
@@ -124,7 +158,7 @@ std::string SparseMatrix::print(bool write = 1, bool outline = 0, int spaces = 8
         }
 
         rowStr = rowStream.str();
-        maxWidth = std::max(maxWidth, rowStr.size());
+        maxWidth = std::max(maxWidth, rowStr.size()); // ajusta a largura máxima da matriz
 
         oss << rowStr << "\n";
 
@@ -137,19 +171,19 @@ std::string SparseMatrix::print(bool write = 1, bool outline = 0, int spaces = 8
     std::string outlineStr(maxWidth, '-');
 
     if (outline)
-    {
+    { // se verdadeiro gera uma borda superior na matriz
         result << outlineStr << "\n";
     }
 
     result << oss.str();
 
     if (outline)
-    {
+    { // se verdadeiro gera uma borda inferior na matriz
         result << outlineStr << "\n";
     }
 
     if (write)
-    {
+    { // se verdadeiro imprime a matriz
         std::cout << result.str();
     }
 
