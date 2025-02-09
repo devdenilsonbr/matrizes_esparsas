@@ -581,7 +581,7 @@ int main()
                 setMatrix[s] = createM(arc);
                 cout << color::yellow << "$read: matrix: " << arq << " as been loaded in index " << s << " successful\n";
             }
-            else if (cmd == "allclear")
+            else if (cmd == "allclear" || cmd == "clearall")
             {
 
                 for (size_t i = 0; i < setMatrix.size(); i++)
