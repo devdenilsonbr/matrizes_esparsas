@@ -1,6 +1,3 @@
-
-colocar uma descricao legal
-
-criar os teste como o é passado no moodle(com um texto onde é separado por comandos)
-
-falta colocar os comentarios, fazer as operacoes com as matrizes, fazer os comandos na main e o relatorio
+version https://git-lfs.github.com/spec/v1
+oid sha256:59efd78f2834aea78892af4b12de54585472ba2a37d7824b509e267cc5802a62
+size 223

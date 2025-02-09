@@ -1,2 +1,3 @@
-https://pt.overleaf.com/read/kjnyhjxhdbwq#24d5bd
-(copia e cola no navegador)
+version https://git-lfs.github.com/spec/v1
+oid sha256:591cc97646cfab8634bab5c6d3cd69180954d90e9797bc9462af17f799d304a3
+size 76
