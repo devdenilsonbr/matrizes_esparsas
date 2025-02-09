@@ -139,8 +139,9 @@ int main()
             else if (cmd == "init")
             {
                 unsigned k;
-                
-                if (!(ss >> k)) {
+
+                if (!(ss >> k))
+                {
                     cerr << color::yellow << "usage: init <number_of_matrices>\n";
                     continue;
                 }
@@ -153,7 +154,8 @@ int main()
                 unsigned s, i, j;
                 double value;
 
-                if (!(ss >> s >> i >> j >> value)) {
+                if (!(ss >> s >> i >> j >> value))
+                {
                     cerr << color::yellow << "usage: insert <matrix_index> <row> <col> <value>\n";
                     continue;
                 }
@@ -183,8 +185,9 @@ int main()
             else if (cmd == "print")
             {
                 unsigned s;
-                
-                if (!(ss >> s)) {
+
+                if (!(ss >> s))
+                {
                     cerr << color::yellow << "usage: print <matrix_index>\n";
                     continue;
                 }
@@ -209,13 +212,48 @@ int main()
 
                 cout << color::yellow << "$print: showing the matrix[" << s << "]\n";
 
-                setMatrix[s]->print(true);
+                std::string content = setMatrix[s]->print(true, true);
+
+                cout << color::green << "Do you want to save the matrix content to file? [s/n]: ";
+                char ans;
+                cin >> ans;
+
+                ans = std::tolower(ans);
+
+                if (ans == 's')
+                {
+                    string filename;
+
+                    cout << color::green << "Enter the filename to save the matrix content: ";
+                    cin >> filename;
+
+                    std::string filePath = "data/print/" + filename + ".txt";
+
+                    std::ofstream outFile(filePath);
+
+                    if (outFile.is_open())
+                    {
+                        outFile << content;
+                        outFile.close();
+                        cout << color::green << "Matrix content saved to " << filePath << "\n";
+                    }
+                    else
+                    {
+                        cerr << color::red << "Failed to open the file for saving\n";
+                    }
+                }
+                else
+                {
+                    cout << color::green << "Matrix content not saved\n";
+                }
+                cin.ignore();
             }
             else if (cmd == "get")
             {
                 unsigned s, i, j;
-                
-                if (!(ss >> s >> i >> j)) {
+
+                if (!(ss >> s >> i >> j))
+                {
                     cerr << color::yellow << "usage: get <matrix_index> <row> <col>\n";
                     continue;
                 }
@@ -244,12 +282,13 @@ int main()
             {
                 unsigned s, n, m;
 
-                if (!(ss >> s >> n >> m)) {
+                if (!(ss >> s >> n >> m))
+                {
                     cerr << color::yellow << "usage: create <index> <rows> <cols>\n";
                     continue;
                 }
 
-                if (setMatrix.size() == 0)  
+                if (setMatrix.size() == 0)
                 {
                     cerr << color::red << "fail: initialize the set of matrices\n";
                     continue;
@@ -292,8 +331,9 @@ int main()
             else if (cmd == "sum")
             {
                 unsigned s, v;
-                
-                if (!(ss >> s >> v)) {
+
+                if (!(ss >> s >> v))
+                {
                     cerr << color::yellow << "usage: sum <matrix_index> <other_matrix_index>\n";
                     continue;
                 }
@@ -327,6 +367,8 @@ int main()
                 char ans;
                 cin >> ans;
 
+                ans = std::tolower(ans);
+
                 if (ans == 's')
                 {
                     setMatrix.push_back(result);
@@ -341,8 +383,9 @@ int main()
             else if (cmd == "mult")
             {
                 unsigned s, v;
-                
-                if (!(ss >> s >> v)) {
+
+                if (!(ss >> s >> v))
+                {
                     cerr << color::yellow << "usage: mult <matrix_index> <other_matrix_index>\n";
                     continue;
                 }
@@ -375,6 +418,8 @@ int main()
                 cout << color::green << " do you wanna save the matrix?[s/n]: ";
                 char ans;
                 cin >> ans;
+
+                ans = std::tolower(ans);
 
                 if (ans == 's')
                 {
@@ -429,8 +474,9 @@ int main()
             else if (cmd == "clear")
             {
                 unsigned s;
-                
-                if (!(ss >> s)) {
+
+                if (!(ss >> s))
+                {
                     cerr << color::yellow << "usage: clear <matrix_index>\n";
                     continue;
                 }
@@ -461,8 +507,9 @@ int main()
             else if (cmd == "dimension")
             {
                 unsigned s;
-                
-                if (!(ss >> s)) {
+
+                if (!(ss >> s))
+                {
                     cerr << color::yellow << "usage: dimension <matrix_index>\n";
                     continue;
                 }
@@ -490,8 +537,9 @@ int main()
             else if (cmd == "read")
             {
                 unsigned s;
-                
-                if (!(ss >> s)) {
+
+                if (!(ss >> s))
+                {
                     cerr << color::yellow << "usage: read <matrix_index> <matrix_file>\n";
                     continue;
                 }
@@ -537,8 +585,9 @@ int main()
             else if (cmd == "readc")
             {
                 unsigned s, r, c;
-                
-                if (!(ss >> s >> r >> c)) {
+
+                if (!(ss >> s >> r >> c))
+                {
                     cerr << color::yellow << "usage: readc <matrix_index> <rows> <cols>\n";
                     continue;
                 }

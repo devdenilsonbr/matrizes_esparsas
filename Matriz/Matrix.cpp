@@ -85,19 +85,21 @@ void SparseMatrix::insert(unsigned i, unsigned j, double value)
     auxColumn->down = newNode;
 }
 
-void SparseMatrix::print(bool outline = 0, int spaces = 8)
+std::string SparseMatrix::print(bool write = 1, bool outline = 0, int spaces = 8)
 {
-    size_t totalWidth = (colunms * spaces) + (colunms - 1) * 3;
+    std::ostringstream oss, result;
 
-    if (outline) {
-        std::cout << std::string(totalWidth, '-') << "\n";
-    }
+    size_t maxWidth = 0;
+    std::string rowStr;
+
+    result << "matrix dimension: " << rows << "x" << colunms << "\n";
 
     Node *auxNode = root->down, *auxRow = root->down;
 
     for (size_t i = 0; i < rows; i++)
     {
         auxNode = auxRow;
+        std::ostringstream rowStream;
 
         while (auxNode->right->column != 0)
         {
@@ -105,10 +107,10 @@ void SparseMatrix::print(bool outline = 0, int spaces = 8)
 
             for (int p = 0; p < zeros; p++)
             {
-                std::cout << std::setw(spaces) << 0.0;
+                rowStream << std::setw(spaces) << "0.0";
             }
 
-            std::cout << std::setw(spaces) << std::fixed << std::setprecision(1) << auxNode->right->value;
+            rowStream << std::setw(spaces) << std::fixed << std::setprecision(1) << auxNode->right->value;
 
             auxNode = auxNode->right;
         }
@@ -117,17 +119,40 @@ void SparseMatrix::print(bool outline = 0, int spaces = 8)
 
         for (int k = 0; k < zeros; k++)
         {
-            std::cout << std::setw(spaces) << 0.0;
+            rowStream << std::setw(spaces) << "0.0";
         }
 
-        std::cout << "\n";
+        rowStr = rowStream.str();
+        maxWidth = std::max(maxWidth, rowStr.size());
+
+        oss << rowStr << "\n";
 
         auxRow = auxRow->down;
     }
 
-    if (outline) {
-        std::cout << std::string(totalWidth, '-') << "\n";
+    // necessario para calcular corretamente os "-" por conta da precisão dos números
+    maxWidth += spaces - 3;
+
+    std::string outlineStr(maxWidth, '-');
+
+    if (outline)
+    {
+        result << outlineStr << "\n";
     }
+
+    result << oss.str();
+
+    if (outline)
+    {
+        result << outlineStr << "\n";
+    }
+
+    if (write)
+    {
+        std::cout << result.str();
+    }
+
+    return result.str();
 }
 
 double SparseMatrix::get(unsigned i, unsigned j)
