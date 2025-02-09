@@ -146,6 +146,12 @@ int main()
                     continue;
                 }
 
+                if (setMatrix.size() != 0)
+                {
+                    cerr << color::red << "fail: the matrices set has already been initialized\n";
+                    continue;
+                }
+
                 setMatrix = vector<SparseMatrix *>(k, nullptr);
                 cout << color::yellow << "$init: initialized " << k << " matrizes\n";
             }
@@ -452,37 +458,28 @@ int main()
 
                 form << color::green << "\n";
 
-                form << left << setw(20) << setfill('.') << "init t" << setw(20) << "" << "init t matrices in a set" << '\n';
-                form << left << setw(20) << setfill('.') << "create s m n" << setw(20)
-                     << "" << "create a matriz of size m x n" << '\n';
-                form << left << setw(20) << setfill('.') << "insert i j v" << setw(20)
-                     << "" << "insert a value in the position i j" << '\n';
-                form << left << setw(20) << setfill('.') << "print s" << setw(20)
-                     << "" << "print the matrix at index s" << '\n';
-                form << left << setw(20) << setfill('.') << "get i j" << setw(20)
-                     << "" << "return the value at position i j" << '\n';
-                form << left << setw(20) << setfill('.') << "clear s" << setw(20)
-                     << "" << "clear the matrix at index s" << '\n';
-                form << left << setw(20) << setfill('.') << "show" << setw(20)
-                     << "" << "show all the matrices in the set of matrices" << '\n';
-                form << left << setw(20) << setfill('.') << "print s" << setw(20)
-                     << "" << "print the matrix at index s" << '\n';
-                form << left << setw(20) << setfill('.') << "sumt s u" << setw(20)
-                     << "" << "return the sum of matrices s and u" << '\n';
-                form << left << setw(20) << setfill('.') << "mult s u" << setw(20)
-                     << "" << "return the multiply of s * u" << '\n';
-                form << left << setw(20) << setfill('.') << "dimension s" << setw(20)
-                     << "" << "return the dimension of matrix at index s" << '\n';
-                form << left << setw(20) << setfill('.') << "print s" << setw(20)
-                     << "" << "print the matrix at index s" << '\n';
-                form << left << setw(20) << setfill('.') << "read s m.txt" << setw(20)
-                     << "" << "read a matrix in a .txt and put in the matrix s" << '\n';
-                form << left << setw(20) << setfill('.') << "readc s m n" << setw(20)
-                     << "" << "read a matrix of size m x and put in the matrix s" << '\n';
-                form << left << setw(20) << setfill('.') << "allclear" << setw(20)
-                     << "" << "clear all matrices and resize the set of matrices to 0" << '\n';
-                form << left << setw(20) << setfill('.') << "exit" << setw(20)
-                     << "" << "exit the program" << '\n';
+                std::vector<std::pair<std::string, std::string>> commands = {
+                    {"init t", "init t matrices in a set"},
+                    {"create s m n", "create a matrix of size m x n"},
+                    {"insert i j v", "insert a value in the position i j"},
+                    {"print s", "print the matrix at index s"},
+                    {"get i j", "return the value at position i j"},
+                    {"clear s", "clear the matrix at index s"},
+                    {"show", "show all the matrices in the set of matrices"},
+                    {"sum s u", "return the sum of matrices s and u"},
+                    {"mult s u", "return the multiply of s * u"},
+                    {"dimension s", "return the dimension of matrix at index s"},
+                    {"read s m.txt", "read a matrix in a .txt and put in the matrix s"},
+                    {"readc s m n", "read a matrix of size m x n and put in the matrix s"},
+                    {"allclear", "clear all matrices and resize the set of matrices to 0"},
+                    {"exit", "exit the program"}};
+
+                for (const auto &cmd : commands)
+                {
+                    form << left << setw(20) << setfill('.') << cmd.first
+                         << setw(20) << cmd.second << '\n';
+                }
+
                 cout << form.str();
             }
             else if (cmd == "clear")

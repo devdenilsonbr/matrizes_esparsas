@@ -40,21 +40,20 @@ SparseMatrix::SparseMatrix(size_t m, size_t n)
         newRoot->down = newRoot;  // ...
         aux = newRoot;            // ...
     }
-    aux->right = root; // ...
+    aux->right = root; // ...`
 }
 
 void SparseMatrix::insert(unsigned i, unsigned j, double value)
 {
-    
     if (i > rows || j > colunms || i == 0 || j == 0)
     {
         throw std::out_of_range("invalid index");
     }
 
-    Node *auxRow = root->down; // crio um auxiliar para encontrar o node que vai apontar para o novo node
+    Node *auxRow = root->down; // crio um auxiliar para encontrar o nó que vai apontar para o novo nó
 
     while (auxRow->row != i)
-    {                          // busco a respectiva linha verificando se a linha atual é a requerida
+    {                          // busco a respectiva linha verificando se a linha atual eh a requerida
         auxRow = auxRow->down; // percorro para a proxima
     }
 
@@ -65,41 +64,14 @@ void SparseMatrix::insert(unsigned i, unsigned j, double value)
 
     if (auxRow->column == j)
     {
-        if (value == 0) { // se o novo valor for 0, removemos o nó antigo
-            Node *toDelete = auxRow->right;
-            auxRow->right = toDelete->right;
-
-            // encontrar o nó anterior na coluna para remover corretamente
-            Node *auxColumn = root;
-
-            while (auxColumn->column != j)
-            {
-                auxColumn = auxColumn->right;
-            }
-
-            while (auxColumn->down != toDelete)
-            {
-                auxColumn = auxColumn->down;
-            }
-            auxColumn->down = toDelete->down;
-
-            delete toDelete;
-        } else
-        {
-            auxRow->right->value = value;
-        }
-        return;
-    }
-
-    if (value == 0) // se o valor for 0 e nó não existe, não precisa fazer mais nada
-    {
+        auxRow->value = value;
         return;
     }
 
     Node *auxColumn = root; // pegar a coluna inicial
 
     while (auxColumn->column != j)
-    { // percorre as colunas ate encontrar a coluna j
+    {  // percorre as colunas ate encontrar a coluna j
         auxColumn = auxColumn->right;
     }
 
@@ -109,7 +81,7 @@ void SparseMatrix::insert(unsigned i, unsigned j, double value)
     }
 
     // cria um novo nó adiciona nos elementos vizinhos
-    Node *newNode = new Node(auxRow->right, auxColumn->down, i, j, value); 
+    Node *newNode = new Node(auxRow->right, auxColumn->down, i, j, value);
 
     auxRow->right = newNode;
     auxColumn->down = newNode;
