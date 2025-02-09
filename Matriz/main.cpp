@@ -104,7 +104,7 @@ SparseMatrix* createC(unsigned r, unsigned c) {
 
 int main()
 {
-    cout << "Welcome, type --help " << "\n";
+    cout << "Welcome, type --help to see the comands " << "\n";
 
     vector<SparseMatrix*> setMatrix;
     
@@ -227,7 +227,7 @@ int main()
                     cout << "not created\n";
                 }
                 else {
-                    cout << "created " << setMatrix[i]->sizeRow() << "x" << setMatrix[i]->sizeColunms() << "\n";
+                    cout << "created " << setMatrix[i]->sizeRow() << " x " << setMatrix[i]->sizeColunms() << "\n";
                 }
             }
         }
@@ -287,8 +287,38 @@ int main()
         else if (cmd == "--help") {
             stringstream form;
             form << "\n";
-            form << left << setw(10) << setfill('.') << "init" << setw(20) << "" << "faz isso" << '\n';
-            form << left << setw(10) << setfill('.') << "create" << setw(20) << "" << "faz aquilo ali" << '\n';
+            form << left << setw(20) << setfill('.') << "init t" << setw(20) <<
+                "" << "init t matrices in a set" << '\n';
+            form << left << setw(20) << setfill('.') << "create s m n" << setw(20)
+                << "" << "create a matriz of size m x n" << '\n';
+            form << left << setw(20) << setfill('.') << "insert i j v" << setw(20)
+                << "" << "insert a value in the position i j" << '\n';
+            form << left << setw(20) << setfill('.') << "print s" << setw(20)
+                << "" << "print the matrix at index s" << '\n';
+            form << left << setw(20) << setfill('.') << "get i j" << setw(20)
+                << "" << "return the value at position i j" << '\n';
+            form << left << setw(20) << setfill('.') << "clear s" << setw(20)
+                << "" << "clear the matrix at index s" << '\n';
+            form << left << setw(20) << setfill('.') << "show" << setw(20)
+                << "" << "show all the matrices in the set of matrices" << '\n';
+            form << left << setw(20) << setfill('.') << "print s" << setw(20)
+                << "" << "print the matrix at index s" << '\n';
+            form << left << setw(20) << setfill('.') << "sumt s u" << setw(20)
+                << "" << "return the sum of matrices s and u" << '\n';
+            form << left << setw(20) << setfill('.') << "mult s u" << setw(20)
+                << "" << "return the multiply of s * u" << '\n';
+            form << left << setw(20) << setfill('.') << "dimension s" << setw(20)
+                << "" << "return the dimension of matrix at index s" << '\n';
+            form << left << setw(20) << setfill('.') << "print s" << setw(20)
+                << "" << "print the matrix at index s" << '\n';
+            form << left << setw(20) << setfill('.') << "read s m.txt" << setw(20)
+                << "" << "read a matrix in a .txt and put in the matrix s" << '\n';
+            form << left << setw(20) << setfill('.') << "readc s m n" << setw(20)
+                << "" << "read a matrix of size m x and put in the matrix s" << '\n';
+            form << left << setw(20) << setfill('.') << "allclear" << setw(20)
+                << "" << "clear all matrices and resize the set of matrices to 0" << '\n';
+            form << left << setw(20) << setfill('.') << "exit" << setw(20)
+                << "" << "exit the program" << '\n';
             cout << form.str();
         }
         else if (cmd == "clear") {
