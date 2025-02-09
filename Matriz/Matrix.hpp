@@ -18,7 +18,7 @@ public:
 
     double get(unsigned i, unsigned j);
 
-    void print();
+    void print(bool outline, int spaces);
 
     size_t sizeRow();
     size_t sizeColunms();

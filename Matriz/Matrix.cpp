@@ -84,8 +84,13 @@ void SparseMatrix::insert(unsigned i, unsigned j, double value)
     auxColumn->down = newNode;
 }
 
-void SparseMatrix::print()
+void SparseMatrix::print(bool outline = 0, int spaces = 8)
 {
+    size_t totalWidth = (colunms * spaces) + (colunms - 1) * 3;
+
+    if (outline) {
+        std::cout << std::string(totalWidth, '-') << "\n";
+    }
 
     Node *auxNode = root->down, *auxRow = root->down;
 
@@ -99,10 +104,11 @@ void SparseMatrix::print()
 
             for (int p = 0; p < zeros; p++)
             {
-                std::cout << " 0 ";
+                std::cout << std::setw(spaces) << 0.0;
             }
 
-            std::cout << " " << auxNode->right->value << " ";
+            std::cout << std::setw(spaces) << std::fixed << std::setprecision(1) << auxNode->right->value;
+
             auxNode = auxNode->right;
         }
 
@@ -110,12 +116,16 @@ void SparseMatrix::print()
 
         for (int k = 0; k < zeros; k++)
         {
-            std::cout << " 0 ";
+            std::cout << std::setw(spaces) << 0.0;
         }
 
         std::cout << "\n";
 
         auxRow = auxRow->down;
+    }
+
+    if (outline) {
+        std::cout << std::string(totalWidth, '-') << "\n";
     }
 }
 

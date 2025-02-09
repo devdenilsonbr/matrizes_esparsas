@@ -139,7 +139,12 @@ int main()
             else if (cmd == "init")
             {
                 unsigned k;
-                ss >> k;
+                
+                if (!(ss >> k)) {
+                    cerr << color::yellow << "usage: init <number_of_matrices>\n";
+                    continue;
+                }
+
                 setMatrix = vector<SparseMatrix *>(k, nullptr);
                 cout << color::yellow << "$init: initialized " << k << " matrizes\n";
             }
@@ -147,7 +152,11 @@ int main()
             {
                 unsigned s, i, j;
                 double value;
-                ss >> s >> i >> j >> value;
+
+                if (!(ss >> s >> i >> j >> value)) {
+                    cerr << color::yellow << "usage: insert <matrix_index> <row> <col> <value>\n";
+                    continue;
+                }
 
                 if (setMatrix.size() == 0)
                 {
@@ -174,7 +183,11 @@ int main()
             else if (cmd == "print")
             {
                 unsigned s;
-                ss >> s;
+                
+                if (!(ss >> s)) {
+                    cerr << color::yellow << "usage: print <matrix_index>\n";
+                    continue;
+                }
 
                 if (setMatrix.size() == 0)
                 {
@@ -196,19 +209,16 @@ int main()
 
                 cout << color::yellow << "$print: showing the matrix[" << s << "]\n";
 
-                cout << "$print[" << s << "]";
-                cout << color::green << "\n";
-
-                cout << setw(setMatrix[s]->sizeColunms() * 3) << setfill('-') << "\n";
-
-                setMatrix[s]->print();
-
-                cout << setw(setMatrix[s]->sizeColunms() * 3) << setfill('-') << "\n";
+                setMatrix[s]->print(true);
             }
             else if (cmd == "get")
             {
                 unsigned s, i, j;
-                ss >> s >> i >> j;
+                
+                if (!(ss >> s >> i >> j)) {
+                    cerr << color::yellow << "usage: get <matrix_index> <row> <col>\n";
+                    continue;
+                }
 
                 if (setMatrix.size() == 0)
                 {
@@ -230,12 +240,16 @@ int main()
 
                 cout << color::yellow << "$get: matrix[" << s << "] at (" << i << ", " << j << ") value: " << setMatrix[s]->get(i, j) << "\n";
             }
-            else if (cmd == "create")
+            else if (cmd == "create" || cmd == "new")
             {
                 unsigned s, n, m;
-                ss >> s >> n >> m;
 
-                if (setMatrix.size() == 0)
+                if (!(ss >> s >> n >> m)) {
+                    cerr << color::yellow << "usage: create <index> <rows> <cols>\n";
+                    continue;
+                }
+
+                if (setMatrix.size() == 0)  
                 {
                     cerr << color::red << "fail: initialize the set of matrices\n";
                     continue;
@@ -278,7 +292,11 @@ int main()
             else if (cmd == "sum")
             {
                 unsigned s, v;
-                ss >> s >> v;
+                
+                if (!(ss >> s >> v)) {
+                    cerr << color::yellow << "usage: sum <matrix_index> <other_matrix_index>\n";
+                    continue;
+                }
 
                 if (setMatrix.size() == 0)
                 {
@@ -323,7 +341,11 @@ int main()
             else if (cmd == "mult")
             {
                 unsigned s, v;
-                ss >> s >> v;
+                
+                if (!(ss >> s >> v)) {
+                    cerr << color::yellow << "usage: mult <matrix_index> <other_matrix_index>\n";
+                    continue;
+                }
 
                 if (setMatrix.size() == 0)
                 {
@@ -365,7 +387,7 @@ int main()
                 }
                 cin.ignore();
             }
-            else if (cmd == "--help")
+            else if (cmd == "--help" || cmd == "help")
             {
                 stringstream form;
 
@@ -407,7 +429,11 @@ int main()
             else if (cmd == "clear")
             {
                 unsigned s;
-                ss >> s;
+                
+                if (!(ss >> s)) {
+                    cerr << color::yellow << "usage: clear <matrix_index>\n";
+                    continue;
+                }
 
                 if (setMatrix.size() == 0)
                 {
@@ -430,12 +456,16 @@ int main()
                 delete setMatrix[s];
                 setMatrix[s] = nullptr;
 
-                cout << color::yellow << "$clear: matrix: " << s << "clared successful\n";
+                cout << color::yellow << "$clear: matrix: " << s << " cleared successful\n";
             }
             else if (cmd == "dimension")
             {
                 unsigned s;
-                ss >> s;
+                
+                if (!(ss >> s)) {
+                    cerr << color::yellow << "usage: dimension <matrix_index>\n";
+                    continue;
+                }
 
                 if (setMatrix.size() == 0)
                 {
@@ -455,12 +485,16 @@ int main()
                     continue;
                 }
 
-                cout << color::yellow << "$dimension: matrix[" << s << "]" << " " << setMatrix[s]->sizeRow() << "x" << setMatrix[s]->sizeColunms() << "\n";
+                cout << color::yellow << "$dimension: matrix_index: " << s << " " << setMatrix[s]->sizeRow() << "x" << setMatrix[s]->sizeColunms() << "\n";
             }
             else if (cmd == "read")
             {
                 unsigned s;
-                ss >> s;
+                
+                if (!(ss >> s)) {
+                    cerr << color::yellow << "usage: read <matrix_index> <matrix_file>\n";
+                    continue;
+                }
 
                 if (setMatrix.size() == 0)
                 {
@@ -477,7 +511,7 @@ int main()
                 string arq;
                 ss >> arq;
 
-                ifstream arc(arq);
+                ifstream arc("data/" + arq);
 
                 if (!arc.is_open())
                 {
@@ -486,7 +520,7 @@ int main()
                 }
 
                 setMatrix[s] = createM(arc);
-                cout << color::yellow << "$read: matrix: " << arq << " in index [" << s << "] successful\n";
+                cout << color::yellow << "$read: matrix: " << arq << " as been loaded in index " << s << " successful\n";
             }
             else if (cmd == "allclear")
             {
@@ -498,12 +532,16 @@ int main()
                 }
                 setMatrix = vector<SparseMatrix *>(0);
 
-                cout << color::yellow << "$allclear: all matrices clared successful\n";
+                cout << color::yellow << "$allclear: all matrices cleared successful\n";
             }
             else if (cmd == "readc")
             {
                 unsigned s, r, c;
-                ss >> s >> r >> c;
+                
+                if (!(ss >> s >> r >> c)) {
+                    cerr << color::yellow << "usage: readc <matrix_index> <rows> <cols>\n";
+                    continue;
+                }
 
                 if (setMatrix.size() == 0)
                 {
@@ -518,9 +556,8 @@ int main()
                 }
 
                 setMatrix[s] = createC(r, c);
-                cout << " << $read[" << s << "]" << " successful\n";
 
-                cout << color::yellow << " << $read: matrix in index: [" << s << "] successful\n";
+                cout << color::yellow << " << $read: matrix in index: " << s << " successful\n";
             }
             else
             {
@@ -541,7 +578,7 @@ int main()
         }
     }
 
-    cout << color::red << "over\n";
+    cout << color::red << "program aborted...\n";
 
     return 0;
 }
