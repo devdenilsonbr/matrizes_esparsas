@@ -8,16 +8,16 @@
 
 using namespace std;
 
-SparseMatrix sum(SparseMatrix *A, SparseMatrix *B) {
+SparseMatrix *sum(SparseMatrix *A, SparseMatrix *B) {
     if (A->sizeColunms() != B->sizeColunms() || A->sizeRow() != B->sizeRow()) {
         throw invalid_argument("the matrizes size not iqual");
     }
 
-    SparseMatrix result = SparseMatrix(A->sizeRow(), B->sizeColunms());
+    SparseMatrix *result = new SparseMatrix(A->sizeRow(), B->sizeColunms());
 
     for (size_t i = 1; i <= A->sizeRow(); i++) {
         for (size_t j = 1; j <= B->sizeColunms(); j++) {
-            result.insert(i, j, A->get(i, j) + B->get(i, j));
+            result->insert(i, j, A->get(i, j) + B->get(i, j));
         }
     }
 
@@ -25,12 +25,12 @@ SparseMatrix sum(SparseMatrix *A, SparseMatrix *B) {
     
 }
 
-SparseMatrix multi(SparseMatrix *A, SparseMatrix *B) {
+SparseMatrix *multi(SparseMatrix *A, SparseMatrix *B) {
     if (A->sizeColunms() != B->sizeRow()) {
         throw invalid_argument("the matrizes size not compatible");
     }
 
-    SparseMatrix result = SparseMatrix(A->sizeRow(), B->sizeColunms());
+    SparseMatrix *result = new SparseMatrix(A->sizeRow(), B->sizeColunms());
 
     for (size_t i = 1; i <= A->sizeRow(); i++) {
         for (size_t j = 1; j <= B->sizeColunms(); j++) {
@@ -38,7 +38,7 @@ SparseMatrix multi(SparseMatrix *A, SparseMatrix *B) {
             for (size_t k = 1; k <= B->sizeRow(); k++) {
                 value += A->get(i, k) * B->get(k, j);
             }
-            result.insert(i, j, value);
+            result->insert(i, j, value);
         }
     }
 
@@ -122,7 +122,7 @@ int main()
             break;
         }
         else if (cmd == "init") {
-            int k;
+            unsigned k;
             ss >> k;
             setMatrix = vector<SparseMatrix*>(k, nullptr);
             cout << "$init " << k << " matrices\n";
@@ -164,14 +164,18 @@ int main()
                 cerr << "fail: matrix not created\n";
                 continue;
             }
-            if (s > setMatrix.size()) {
+            if (s >= setMatrix.size()) {
                 cerr << "fail: inexistent matrix\n";
                 continue;
             }
 
             cout << "$print[" << s << "]\n";
+
+            cout << setw(setMatrix[s]->sizeColunms()*3) << setfill('-') << "\n";
             
             setMatrix[s]->print();
+
+            cout << setw(setMatrix[s]->sizeColunms()*3) << setfill('-') << "\n";
         }
         else if (cmd == "get") {
             unsigned s, i, j;
@@ -186,7 +190,7 @@ int main()
                 cerr << "fail: matrix not created\n";
                 continue;
             }
-            if (s > setMatrix.size()) {
+            if (s >= setMatrix.size()) {
                 cerr << "fail: inexistent matrix\n";
                 continue;
             }
@@ -203,7 +207,7 @@ int main()
                 continue;
             }
 
-            if (s > setMatrix.size()) {
+            if (s >= setMatrix.size()) {
                 cerr << "fail: inexistent matrix\n";
                 continue;
             }
@@ -244,15 +248,24 @@ int main()
                 cerr << "fail: matrix not create\n";
                 continue;
             }
-            if (s > setMatrix.size() || v > setMatrix.size()) {
+            if (s >= setMatrix.size() || v >= setMatrix.size()) {
                 cerr << "fail: inexistent matrix\n";
                 continue;
             }
 
             try {
-                SparseMatrix result = sum(setMatrix[s], setMatrix[v]);
+                SparseMatrix *result = sum(setMatrix[s], setMatrix[v]);
                 cout << "\n";
-                result.print();
+                result->print();
+                cout << " do you wanna save the matrix?[s/n]: ";
+                char ans;
+                cin >> ans;
+                if (ans == 's') {
+                    setMatrix.push_back(result);
+                    cout << " matrix save at the final of the set of matrices\n";
+                }
+                else cout << " matrix not save\n";
+                cin.ignore();
             } catch (const invalid_argument& arg) {
                 cerr << "fail: " << arg.what() << "\n";
             }
@@ -270,15 +283,24 @@ int main()
                 cerr << "fail: matrix not create\n";
                 continue;
             }
-            if (s > setMatrix.size() || v > setMatrix.size()) {
+            if (s >= setMatrix.size() || v >= setMatrix.size()) {
                 cerr << "fail: inexistent matrix\n";
                 continue;
             }
 
             try {
-                SparseMatrix result = multi(setMatrix[s], setMatrix[v]);
+                SparseMatrix *result = multi(setMatrix[s], setMatrix[v]);
                 cout << "\n";
-                result.print();
+                result->print();
+                cout << "do you wanna save the matrix?[s/n]: ";
+                char ans;
+                cin >> ans;
+                if (ans == 's') {
+                    setMatrix.push_back(result);
+                    cout << " matrix save at the final of the set of matrices\n";
+                }
+                else cout << " matrix not save\n";
+                cin.ignore();
             } catch (const invalid_argument& arg) {
                 cerr << "fail: " << arg.what() << "\n";
             }
@@ -333,7 +355,7 @@ int main()
                 cerr << "fail: matrix not created\n";
                 continue;
             }
-            if (s > setMatrix.size()) {
+            if (s >= setMatrix.size()) {
                 cerr << "fail: inexistent matrix\n";
                 continue;
             }
@@ -355,7 +377,7 @@ int main()
                 cerr << "fail: matrix not created\n";
                 continue;
             }
-            if (s > setMatrix.size()) {
+            if (s >= setMatrix.size()) {
                 cerr << "fail: inexistent matrix\n";
                 continue;
             }
@@ -371,7 +393,7 @@ int main()
                 cerr << "fail: initialize the set matriz\n";
                 continue;
             }
-            if (s > setMatrix.size()) {
+            if (s >= setMatrix.size()) {
                 cerr << "fail: inexistent matrix\n";
                 continue;
             }
@@ -388,11 +410,11 @@ int main()
 
             try {
                 setMatrix[s] = createM(arc);
+                cout << "$read[" << s << "]" << " successful\n";
 
             } catch (const out_of_range& arg) {
                 cerr << "erro: " << arg.what() << "\n";
             }
-            cout << "$read[" << s << "]" << " successful\n";
         }
         else if (cmd == "allclear") {
 
@@ -413,18 +435,18 @@ int main()
                 cerr << "fail: initialize the set matriz\n";
                 continue;
             }
-            if (s > setMatrix.size()) {
+            if (s >= setMatrix.size()) {
                 cerr << "fail: inexistent matrix\n";
                 continue;
             }
 
             try {
                 setMatrix[s] = createC(r, c);
+                cout << " << $read[" << s << "]" << " successful\n";
 
             } catch (const out_of_range& arg) {
                 cerr << "erro: " << arg.what() << "\n";
             }
-            cout << " << $read[" << s << "]" << " successful\n";
 
 
         }
