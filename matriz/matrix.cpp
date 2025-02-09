@@ -1,6 +1,7 @@
 #include <iostream>
 #include "matrix.hpp"
 #include <iomanip>
+#include <sstream>
 
 SparseMatrix::SparseMatrix(size_t m, size_t n)
 {
