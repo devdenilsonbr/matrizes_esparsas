@@ -5,7 +5,7 @@
 
 SparseMatrix::SparseMatrix(size_t m, size_t n)
 {
-    if (m <= 0 || n <= 0 || m > 30000 || n > 30000)
+    if (m <= 0 || n <= 0 || m * n > 900000000)
     {
         throw std::out_of_range("invalid matrix size");
     }

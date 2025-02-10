@@ -42,7 +42,7 @@ SparseMatrix *multiply(SparseMatrix *A, SparseMatrix *B)
     {
         for (size_t j = 1; j <= B->sizeColunms(); j++)
         {
-            double value = 0;
+            double value = 0; // crio uma variável para o resultado da linha e coluna
 
             for (size_t k = 1; k <= B->sizeRow(); k++)
             {
@@ -61,11 +61,11 @@ SparseMatrix *createM(ifstream &arc)
 
     while (getline(arc, line))
     {
-        contend += line;
+        contend += line; // coloco cada linha na string conteudo
         contend += "\n";
     }
 
-    stringstream ss(contend);
+    stringstream ss(contend); // coloca a string em um fluxo
 
     unsigned r, c;
     ss >> r >> c;
@@ -82,7 +82,7 @@ SparseMatrix *createM(ifstream &arc)
 
     while (ss >> i >> j >> value)
     {
-        result->insert(i, j, value);
+        result->insert(i, j, value); // coloco todos os valores na matriz esparsa
     }
 
     return result;
@@ -108,7 +108,7 @@ SparseMatrix *createC(unsigned r, unsigned c)
             result->insert(i, j, value);
         }
     }
-    cin.ignore();
+    cin.ignore(); // para nao interferir no fluxo
 
     return result;
 }
@@ -458,6 +458,8 @@ int main()
 
                 form << color::green << "\n";
 
+                //criado um vector para melhor trabalhar com a impressao dos comandos
+
                 std::vector<std::pair<std::string, std::string>> commands = {
                     {"init t", "init t matrices in a set"},
                     {"create s m n", "create a matrix of size m x n"},
@@ -473,6 +475,8 @@ int main()
                     {"readc s m n", "read a matrix of size m x n and put in the matrix s"},
                     {"allclear", "clear all matrices and resize the set of matrices to 0"},
                     {"exit", "exit the program"}};
+                
+                // para cada comando, imprime seu nome e sua descricao
 
                 for (const auto &cmd : commands)
                 {
