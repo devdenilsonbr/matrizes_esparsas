@@ -4,7 +4,7 @@
 1. Para iniciar, execute o arquivo `start.sh` conforme o sistema operacional:
 - **Windows (Git Bash ou WSL)**:
     ```bash
-    sh start.sh
+    ./start.sh
     ```
 - **macOS**:
     ```bash
