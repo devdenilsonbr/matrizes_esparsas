@@ -1,0 +1,32 @@
+CHIP: Ryzen 5 5600x (AMD)
+Arquitetura: Zen 3
+Sistema Operacional: Windows (Windows 11)
+
+Tamanho da matriz: 30.000x30.000
+Formato do tempo: min/segs/ms
+
+Teste 01:
+ - Tempo para gerar matriz: 00:02:34ms
+ - Tempo para mostrar no console: 00:03:32ms
+ - Tempo para escrever no disco: 00:04:23ms
+ - Tamanho do arquivo em disco: 7.2GB
+
+Teste 02:
+ - Tempo para gerar matriz: 00:02:58ms
+ - Tempo para mostrar no console: 00:03:41ms
+ - Tempo para escrever no disco: 00:06:11ms
+ - Tamanho do arquivo em disco: 7.2GB
+
+Teste 03:
+ - Tempo para gerar matriz: 00:02:24ms
+ - Tempo para mostrar no console: 00:03:37ms
+ - Tempo para escrever no disco: 00:04:32ms
+ - Tamanho do arquivo em disco: 7.2GB
+
+Teste 04:
+ - Tempo para gerar matriz: 00:03:14ms
+ - Tempo para mostrar no console: 00:04:50ms
+ - Tempo para escrever no disco: 00:05:14ms
+ - Tamanho do arquivo em disco: 7.2GB
+
+Uso de mémoria ram: ≈7.50GB

@@ -1,0 +1,26 @@
+CHIP: Ryzen 5 5600x (AMD)
+Arquitetura: Zen 3
+Sistema Operacional: Windows (Windows 11)
+
+Tamanho da matriz: 30.000x30.000
+Formato do tempo: min/segs/ms
+
+INSERT 01:
+ - Posição: (1, 1)
+ - Tempo para inserir o valor: 00:02:28ms
+
+INSERT 02:
+ - Posição: (100, 100)
+ - Tempo para inserir o valor: 00:01:34ms
+
+INSERT 03:
+ - Posição: (5000, 5000)
+ - Tempo para inserir o valor: 00:03:01ms
+
+INSERT 04:
+ - Posição: (5000, 5000)
+ - Tempo para inserir o valor: 00:02:15ms
+
+INSERT 05:
+ - Posição: (30000, 30000)
+ - Tempo para inserir o valor: 00:02:20ms

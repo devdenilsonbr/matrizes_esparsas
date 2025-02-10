@@ -1,0 +1,26 @@
+CHIP: Apple M2 (Apple Silicon)
+Arquitetura: ARM
+Sistema Operacional: MacOS (Sequoia 15.3)
+
+Tamanho da matriz: 30.000x30.000
+Formato do tempo: min/segs/ms
+
+INSERT 01:
+ - Posição: (1, 1)
+ - Tempo para inserir o valor: 00:02:33ms
+
+INSERT 02:
+ - Posição: (100, 100)
+ - Tempo para inserir o valor: 00:02:57ms
+
+INSERT 03:
+ - Posição: (5000, 5000)
+ - Tempo para inserir o valor: 00:02:85ms
+
+INSERT 04:
+ - Posição: (5000, 5000)
+ - Tempo para inserir o valor: 00:02:85ms
+
+INSERT 05:
+ - Posição: (30000, 30000)
+ - Tempo para inserir o valor: 00:01:16ms

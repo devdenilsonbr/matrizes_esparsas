@@ -1,0 +1,1 @@
+Devido ao tamanho da matriz 30.000x30.000 não foi possivel copia-la para dentro desta pasta.
