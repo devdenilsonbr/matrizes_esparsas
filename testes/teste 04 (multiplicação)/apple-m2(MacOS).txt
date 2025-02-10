@@ -1,0 +1,7 @@
+CHIP: Apple M2 (Apple Silicon)
+Arquitetura: ARM
+Sistema Operacional: MacOS (Sequoia 15.3)
+
+Formato do tempo: min/segs/ms
+
+O tempo para realizar a multiplicação ultrapassou os 35 minutos, portanto cancelei o processo.

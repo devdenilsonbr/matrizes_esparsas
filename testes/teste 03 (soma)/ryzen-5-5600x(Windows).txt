@@ -1,0 +1,7 @@
+CHIP: Ryzen 5 5600x (AMD)
+Arquitetura: Zen 3
+Sistema Operacional: Windows (Windows 11)
+
+Formato do tempo: min/segs/ms
+
+O tempo para realizar soma ultrapassou os 35 minutos, portanto cancelei o processo.
